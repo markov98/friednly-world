@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 // Creating express app
 const app = express();
 
-// Configurations hadnlebars
+// Configuring hadnlebars
 app.engine('hbs', handlebars.engine({ extname: 'hbs' }));
 app.set('view engine', 'hbs');
 app.set('views', 'src/views');
