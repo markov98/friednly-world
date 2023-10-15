@@ -6,11 +6,12 @@ const bodyParser = require('body-parser');
 // Creating express app
 const app = express();
 
-// Configurations and middlewares
-app.engine('hbs', handlebars({ extname: 'hbs' }));
+// Configurations hadnlebars
+app.engine('hbs', handlebars.engine({ extname: 'hbs' }));
 app.set('view engine', 'hbs');
 app.set('views', 'src/views');
 
+// Middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
