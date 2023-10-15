@@ -4,14 +4,18 @@
   "description": "JS Back-End exam preparation",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm start"
+    "start": "nodemon src/index.js"
   },
   "author": "Martin Markov",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
-    "nodemon": "^3.0.1"
+    "mongoose": "^7.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
   }
 }
