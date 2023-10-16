@@ -1,3 +1,3 @@
 const User = require('../models/User');
 
-exports.register = (username, password) => User.create({ username, password });
+exports.register = (email, password) => User.create({ email, password });
