@@ -20,7 +20,11 @@ router.post('/register', async (req, res) => {
         }
 
         await userService.register(email, password);
-        res.redirect('/');
+
+        const token = await userService.login(email, password);
+        res.cookie('auth', token);
+
+        res.redirect('/')
     } catch (err) {
         const errMessage = err.message;
         res.render('users/register', {errMessage});
