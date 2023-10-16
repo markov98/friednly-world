@@ -2,6 +2,7 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const {auth} = require('../middlewares/auth');
 
 // Creating express app
 const app = express();
@@ -18,5 +19,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use(express.static('src/static'));
+
+app.use(auth);
 
 module.exports = app;
