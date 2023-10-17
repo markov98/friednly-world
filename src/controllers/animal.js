@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const animalService = require('../services/animal');
 const { isAuth } = require('../middlewares/auth');
+const { checkOwnership } = require('../middlewares/checkOwnership');
 
 // Add page
 
@@ -37,25 +38,16 @@ router.get('/:animalId/details', async (req, res) => {
 
 // Edit Page
 
-router.get('/:animalId/edit', async (req, res) => {
+router.get('/:animalId/edit', checkOwnership, async (req, res) => {
     const animal = await animalService.getById(req.params.animalId).lean();
-
-    if (!animal || req.user?._id !== animal.owner.toString()) {
-        return res.redirect('/404');
-    }
 
     res.render('animals/edit', { animal });
 });
 
-router.post('/:animalId/edit', async (req, res) => {
-    const {animalId} = req.params;
+router.post('/:animalId/edit', checkOwnership, async (req, res) => {
+    const { animalId } = req.params;
     const { name, years, need, kind, imageUrl, location, description } = req.body;
-    const animal = await animalService.getById(animalId).lean();
-
-    if (!animal || req.user?._id !== animal.owner.toString()) {
-        return res.redirect('/404');
-    }
-
+    
     try {
         await animalService.edit(animalId, { name, years: Number(years), need, kind, imageUrl, location, description });
         res.redirect(`/animals/${animalId}/details`);
