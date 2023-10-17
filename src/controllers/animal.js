@@ -47,10 +47,22 @@ router.get('/:animalId/edit', checkOwnership, async (req, res) => {
 router.post('/:animalId/edit', checkOwnership, async (req, res) => {
     const { animalId } = req.params;
     const { name, years, need, kind, imageUrl, location, description } = req.body;
-    
+
     try {
         await animalService.edit(animalId, { name, years: Number(years), need, kind, imageUrl, location, description });
         res.redirect(`/animals/${animalId}/details`);
+    } catch (err) {
+        const errMessage = err.message;
+        res.render('animals/create', { errMessage });
+    }
+});
+
+// Deletion
+
+router.get('/:animalId/delete', checkOwnership, async (req, res) => {
+    try {
+        await animalService.delete(req.params.animalId);
+        res.redirect('/dashboard');
     } catch (err) {
         const errMessage = err.message;
         res.render('animals/create', { errMessage });
@@ -75,7 +87,7 @@ router.get('/:animalId/donate', async (req, res) => {
     } catch (err) {
         res.redirect('/404');
     }
-})
+});
 
 module.exports = router;
 
