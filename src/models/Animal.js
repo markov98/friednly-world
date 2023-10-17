@@ -28,7 +28,7 @@ const animalSchema = new mongoose.Schema({
         minLength: [3, 'Need must be between 3 and 20 characters long!'],
         maxLength: [20, 'Need must be between 3 and 20 characters long!']
     },
-    descrtiption: {
+    description: {
         type: String,
         required: [true, 'Description is required!'],
         minLength: [5, 'Description must be between 5 and 50 characters long!'],
