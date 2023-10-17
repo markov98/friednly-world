@@ -1,13 +1,14 @@
 const router = require("express").Router();
 const animalService = require('../services/animal');
+const { isAuth } = require('../middlewares/auth')
 
 // Add page
 
-router.get('/add', (req, res) => {
+router.get('/add', isAuth, (req, res) => {
     res.render('animals/create');
 });
 
-router.post('/add', async (req, res) => {
+router.post('/add', isAuth, async (req, res) => {
     const { name, years, need, kind, imageUrl, location, description } = req.body;
 
     try {
@@ -15,7 +16,7 @@ router.post('/add', async (req, res) => {
         res.redirect('/dashboard');
     } catch (err) {
         const errMessage = err.message;
-        res.render('animals/create', {errMessage});
+        res.render('animals/create', { errMessage });
     }
 })
 
