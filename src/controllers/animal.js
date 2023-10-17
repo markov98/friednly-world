@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const animalService = require('../services/animal');
-const { isAuth } = require('../middlewares/auth')
+const { isAuth } = require('../middlewares/auth');
 
 // Add page
 
@@ -29,7 +29,9 @@ router.get('/:animalId/details', async (req, res) => {
         return res.redirect('/404');
     }
 
-    res.render('animals/details', { animal })
+    const isOwner = req.user?._id === animal.owner.toString();
+
+    res.render('animals/details', { animal, isOwner })
 })
 
 module.exports = router;
