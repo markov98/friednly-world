@@ -30,8 +30,9 @@ router.get('/:animalId/details', async (req, res) => {
     }
 
     const isOwner = req.user?._id === animal.owner.toString();
+    const hasDonated = animal.donators.includes(req.user?._id);
 
-    res.render('animals/details', { animal, isOwner })
+    res.render('animals/details', { animal, isOwner, hasDonated })
 })
 
 module.exports = router;
