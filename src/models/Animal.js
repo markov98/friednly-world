@@ -39,7 +39,15 @@ const animalSchema = new mongoose.Schema({
         required: [true, 'Location is required!'],
         minLength: [5, 'Location must be between 5 and 15 characters long!'],
         maxLength: [15, 'Location must be between 5 and 15 characters long!']
-    }
+    },
+    owner: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    },
+    donators: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }]
 });
 
 const Animal = mongoose.model('Animal', animalSchema);
