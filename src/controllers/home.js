@@ -2,8 +2,9 @@ const router = require("express").Router();
 const animalService = require('../services/animal');
 
 router.get('/', async (req, res) => {
-    const animals = await animalService.getLastThree();
-    res.render('home');
+    const animals = (await animalService.getLastThree()).map(animal => animal.toObject());
+    const isEmpty = animals.length === 0;
+    res.render('home', {animals, isEmpty});
 });
 
 router.get('/dashboard', (req, res) => {
