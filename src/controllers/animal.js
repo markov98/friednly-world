@@ -30,9 +30,30 @@ router.get('/:animalId/details', async (req, res) => {
     }
 
     const isOwner = req.user?._id === animal.owner.toString();
-    const hasDonated = animal.donators.includes(req.user?._id);
+    const hasDonated = animal.donators.map(el => el.toString()).includes(req.user?._id);
 
     res.render('animals/details', { animal, isOwner, hasDonated })
+});
+
+// Donatation
+
+router.get('/:animalId/donate', async (req, res) => {
+    try {
+        const { animalId } = req.params;
+        const animal = await animalService.getById(animalId).lean();
+        const isOwner = req.user?._id === animal.owner.toString();
+        const hasDonated = animal.donators.map(el => el.toString()).includes(req.user?._id);
+
+        if (!req.user || isOwner || hasDonated) {
+            throw new Error('Error');
+        }
+
+        await animalService.donate(animalId, req.user);
+        res.redirect(`/animals/${animalId}/details`)
+    } catch (err) {
+        console.log(err);
+        res.redirect('/404');
+    }
 })
 
 module.exports = router;
