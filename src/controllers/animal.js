@@ -45,6 +45,24 @@ router.get('/:animalId/edit', async (req, res) => {
     }
 
     res.render('animals/edit', { animal });
+});
+
+router.post('/:animalId/edit', async (req, res) => {
+    const {animalId} = req.params;
+    const { name, years, need, kind, imageUrl, location, description } = req.body;
+    const animal = await animalService.getById(animalId).lean();
+
+    if (!animal || req.user?._id !== animal.owner.toString()) {
+        return res.redirect('/404');
+    }
+
+    try {
+        await animalService.edit(animalId, { name, years: Number(years), need, kind, imageUrl, location, description });
+        res.redirect(`/animals/${animalId}/details`);
+    } catch (err) {
+        const errMessage = err.message;
+        res.render('animals/create', { errMessage });
+    }
 })
 
 // Donatation

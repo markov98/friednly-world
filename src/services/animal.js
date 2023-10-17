@@ -14,3 +14,5 @@ exports.getLastThree = () => {
 exports.getById = (animalId) => Animal.findById(animalId);
 
 exports.donate = (animalId, user) => Animal.findByIdAndUpdate(animalId, { $push: { donators: user } });
+
+exports.edit = (animalId, animalData) => Animal.findByIdAndUpdate(animalId, animalData, { runValidators: true });
