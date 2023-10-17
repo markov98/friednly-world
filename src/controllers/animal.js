@@ -35,6 +35,18 @@ router.get('/:animalId/details', async (req, res) => {
     res.render('animals/details', { animal, isOwner, hasDonated })
 });
 
+// Edit Page
+
+router.get('/:animalId/edit', async (req, res) => {
+    const animal = await animalService.getById(req.params.animalId).lean();
+
+    if (!animal || req.user?._id !== animal.owner.toString()) {
+        return res.redirect('/404');
+    }
+
+    res.render('animals/edit', { animal });
+})
+
 // Donatation
 
 router.get('/:animalId/donate', async (req, res) => {
@@ -51,7 +63,6 @@ router.get('/:animalId/donate', async (req, res) => {
         await animalService.donate(animalId, req.user);
         res.redirect(`/animals/${animalId}/details`)
     } catch (err) {
-        console.log(err);
         res.redirect('/404');
     }
 })
