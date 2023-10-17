@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const userService = require('../services/user');
+const { isAuth } = require('../middlewares/auth');
 
 //Login Page
 router.get('/login', (req, res) => {
@@ -25,7 +26,7 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-    const {email, password, repeatPassword} = req.body;
+    const { email, password, repeatPassword } = req.body;
 
     try {
         if (password !== repeatPassword) {
@@ -40,12 +41,12 @@ router.post('/register', async (req, res) => {
         res.redirect('/')
     } catch (err) {
         const errMessage = err.message;
-        res.render('users/register', {errMessage});
+        res.render('users/register', { errMessage });
     }
 });
 
 // Logout
-router.get('/logout', (req, res) => {
+router.get('/logout', isAuth, (req, res) => {
     res.clearCookie('auth');
     res.redirect('/');
 })
