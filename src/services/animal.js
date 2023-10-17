@@ -10,3 +10,5 @@ exports.getLastThree = () => {
     query.limit(3);
     return query.exec();
 }
+
+exports.getById = (animalId) => Animal.findById(animalId);

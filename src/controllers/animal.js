@@ -20,5 +20,17 @@ router.post('/add', isAuth, async (req, res) => {
     }
 })
 
+// Details Page
+
+router.get('/:animalId/details', async (req, res) => {
+    const animal = await animalService.getById(req.params.animalId).lean();
+
+    if (!animal) {
+        return res.redirect('/404');
+    }
+
+    res.render('animals/details', { animal })
+})
+
 module.exports = router;
 
