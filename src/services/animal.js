@@ -18,3 +18,5 @@ exports.donate = (animalId, user) => Animal.findByIdAndUpdate(animalId, { $push:
 exports.edit = (animalId, animalData) => Animal.findByIdAndUpdate(animalId, animalData, { runValidators: true });
 
 exports.delete = (animalId) => Animal.findByIdAndDelete(animalId);
+
+exports.search = (searchTerm) => Animal.find().where('location', new RegExp(searchTerm, 'i'));
