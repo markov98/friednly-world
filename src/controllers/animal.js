@@ -64,8 +64,7 @@ router.get('/:animalId/delete', checkOwnership, async (req, res) => {
         await animalService.delete(req.params.animalId);
         res.redirect('/dashboard');
     } catch (err) {
-        const errMessage = err.message;
-        res.render('animals/create', { errMessage });
+        res.redirect('/404');
     }
 })
 
